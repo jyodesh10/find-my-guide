@@ -11,4 +11,8 @@ router.get("/", authenticateToken, getUsers);
 router.get("/:id", authenticateToken, getUser);
 router.put("/:id", [authenticateToken, upload.single('image')], updateUser);
 
+
+
+
+
 module.exports =  router;

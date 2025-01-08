@@ -38,7 +38,14 @@ const createGuide = async (req, res) => {
 
 const getGuides = async (req, res) => {
     try {
-        const users = await Guide.find();
+        const users = await Guide.find().populate({
+            path: "reviews",
+            model: 'Review',
+            populate: {
+                path: "user",
+                model: 'User',
+            }
+        });
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json({message: error.message});

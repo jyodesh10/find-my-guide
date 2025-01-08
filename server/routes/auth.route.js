@@ -9,9 +9,9 @@ const router = express.Router();
 const refreshTokens = [];
 
 router.post("/login", async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     const user = await User.findOne({
-        username: username
+        email: email
     }
     )
 
@@ -27,11 +27,11 @@ router.post("/login", async (req, res) => {
 
     
     //generate jwt
-    const accesToken = jwt.sign({username}, process.env.ACCESS_TOKEN_SECRET, {
+    const accesToken = jwt.sign({email}, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1d"
     })
     
-    const refreshToken =  jwt.sign({username}, process.env.REFRESH_TOKEN_SECRET)
+    const refreshToken =  jwt.sign({email}, process.env.REFRESH_TOKEN_SECRET)
 
     refreshTokens.push(refreshToken);
     
