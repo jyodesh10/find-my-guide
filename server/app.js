@@ -4,6 +4,7 @@ const dbconnection = require("./database.js");
 const authRoute = require("./routes/auth.route.js");
 const userRoute = require("./routes/users.route.js");
 const guideRoute = require("./routes/guide.route.js");
+const tourRoute = require("./routes/tour.route.js");
 const languageRoute = require("./routes/language.route.js");
 const specializationRoute = require("./routes/specialization.route.js");
 const reviewRoute = require("./routes/review.route.js");
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 //routes
 app.use("/api/users", userRoute);
 app.use("/api/guides", guideRoute);
+app.use("/api/tours", tourRoute);
 app.use("/api/specializations", specializationRoute);
 app.use("/api/languages", languageRoute);
 app.use("/api/review", reviewRoute);

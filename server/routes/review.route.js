@@ -10,7 +10,7 @@ const router = express.Router();
 router.post("/", authenticateToken, async (req, res) => {
     try {
         const checkReviewExists =  await Review.find({user : req.body.user});
-        if(checkReviewExists) return res.status(400).json({message: "Review Alraedy Exists"});
+        if(checkReviewExists) return res.status(400).json({message: "Review Already Exists"});
 
         const review = await Review({
             user: req.body.user,

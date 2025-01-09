@@ -2,7 +2,29 @@
 
 const mongoose = require('mongoose');
 
-const guideSchema = new mongoose.Schema({
+
+const locationSchema = mongoose.Schema(
+  {
+    country: {
+      type: String,
+      default: "Nepal"
+    },
+    region: {
+      type: String,
+      required: true
+    },
+    city: {
+      type: String,
+      required: true
+    },
+  },
+  {
+    _id: false
+  }
+);
+
+const guideSchema = new mongoose.Schema(
+  {
     firstname: {
       type: String,
       required: true,
@@ -20,22 +42,32 @@ const guideSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+    dob: {
+      type: Date,
+    },
+    location: {
+      type: locationSchema,
+      required: true,
+    },
+    languages: [{ type: String }],
+    specializations: [{ type: String }],
+    experience: {
+      type: Number,
+    },
+    bio: {
+      type: String,
+    },
+    ///Contacts
     phone: {
       type: String,
     },
-    location: {
+    website: {
       type: String,
     },
-    languages: {
-      type: [String],
+    whatsapp: {
+      type: String,
     },
-    specializations: {
-      type: [String], // e.g., "history", "food", "nature", "photography"
-    },
-    experience: {
-      type: Number, 
-    },
-    bio: {
+    facebook: {
       type: String,
     },
     image: {
@@ -44,7 +76,7 @@ const guideSchema = new mongoose.Schema({
     reviews: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Review', 
+        ref: 'Review',
       },
     ],
     rating: {
@@ -56,8 +88,13 @@ const guideSchema = new mongoose.Schema({
       default: false,
     },
     documents: {
-      type: String
+      type: [String]
     }
-  });
-  
-  module.exports = mongoose.model('Guide', guideSchema);
+  },
+  {
+    timestamps: true
+  }
+);
+
+
+module.exports = mongoose.model('Guide', guideSchema);

@@ -9,28 +9,18 @@ const createGuide = async (req, res) => {
             email: req.body.email
         });
 
-        if(guideavailable) return res.status(500).json({message: "email address already exists"});
+        if(guideavailable) return res.status(500).json({message: "This email address already exists"});
 
-        const guide = await Guide({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            password: hashedpassword,
-            phone: req.body.phone,
-            location: req.body.location,
-            languages: req.body.location,
-            specializations: req.body.location,
-            experience: req.body.location,
-            bio: req.body.location,
-        });
+        const guide = await Guide(req.body);
 
+        guide.password = hashedpassword;
         if(req.file) {
             guide.image = req.file.path
         }
 
-        guide.save();
+        await guide.save();
 
-        res.status(200).json(guide);
+        res.status(200).json({message: "Account created successfully", data : guide});
     } catch (error) {
         res.status(500).json({message: error.message});
     }
@@ -79,13 +69,16 @@ const updateGuide = async (req, res) => {
         let updatedData = {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
-            email: req.body.email,
-            phone: req.body.phone,
             location: req.body.location,
-            languages: req.body.location,
-            specializations: req.body.location,
-            experience: req.body.location,
-            bio: req.body.location,
+            dob: req.body.dob,
+            languages: req.body.languages,
+            specializations: req.body.specializations,
+            experience: req.body.experience,
+            bio: req.body.bio,
+            phone: req.body.phone,
+            website: req.body.website,
+            whatsapp: req.body.whatsapp,
+            facebook: req.body.facebook,
         }
 
         if(req.file) {
