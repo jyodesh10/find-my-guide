@@ -57,6 +57,10 @@ const guideSchema = new mongoose.Schema(
     bio: {
       type: String,
     },
+    price: {
+      type: String,
+      required: true
+    },
     ///Contacts
     phone: {
       type: String,
