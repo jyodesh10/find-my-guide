@@ -13,14 +13,14 @@ router.post("/", authenticateToken, async (req, res) => {
 
         const review = await TourReview({
             user: req.body.user,
-            guide: req.body.guide,
+            tour: req.body.tour,
             rating: req.body.rating,
             comment: req.body.comment,
         })
 
         await review.save();
 
-        const tour = await Tour.findById(req.body.guide);
+        const tour = await Tour.findById(req.body.tour);
 
         tour.reviews.push(review._id);
 
