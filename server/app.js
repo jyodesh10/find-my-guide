@@ -8,6 +8,7 @@ const tourRoute = require("./routes/tour.route.js");
 const languageRoute = require("./routes/language.route.js");
 const specializationRoute = require("./routes/specialization.route.js");
 const reviewRoute = require("./routes/review.route.js");
+const tourreviewRoute = require("./routes/tour_review.route.js");
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use("/api/tours", tourRoute);
 app.use("/api/specializations", specializationRoute);
 app.use("/api/languages", languageRoute);
 app.use("/api/review", reviewRoute);
+app.use("/api/tour-review", tourreviewRoute);
 app.use("/auth", authRoute);
 
 app.get('/', (req, res) => {
