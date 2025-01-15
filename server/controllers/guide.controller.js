@@ -1,5 +1,5 @@
-const Guide  = require("../models/guide.model.js");
-const path = require('path'); 
+const Guide = require("../models/guide.model.js");
+const path = require('path');
 const { hashpassword } = require("../utils/bcrypthelper.js");
 
 const createGuide = async (req, res) => {
@@ -9,46 +9,47 @@ const createGuide = async (req, res) => {
             email: req.body.email
         });
 
-        if(guideavailable) return res.status(500).json({message: "This email address already exists"});
+        if (guideavailable) return res.status(500).json({ message: "This email address already exists" });
 
         const guide = await Guide(req.body);
 
         guide.password = hashedpassword;
-        if(req.file) {
+        if (req.file) {
             guide.image = req.file.path
         }
 
         await guide.save();
 
-        res.status(200).json({message: "Account created successfully", data : guide});
+        res.status(200).json({ message: "Account created successfully", data: guide });
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
 }
 
 const getGuides = async (req, res) => {
     try {
-        const users = await Guide.find().populate({
-            path: "reviews",
-            model: 'Review',
-            populate: {
-                path: "user",
-                model: 'User',
-            }
-        });
+        const users = await Guide.find();
         res.status(200).json(users);
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
 }
 
 const getGuide = async (req, res) => {
     try {
         const { id } = req.params;
-        const guide = await Guide.findById(id);
+        const guide = await Guide.findById(id).populate({
+            path: "reviews",
+            model: 'Review',
+            populate: {
+                path: "user",
+                model: 'User',
+                select: ["username", "image"]
+            }
+        });
         res.status(200).json(guide);
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -56,9 +57,9 @@ const deleteGuide = async (req, res) => {
     try {
         const { id } = req.params;
         await Guide.findByIdAndDelete(id);
-        res.status(200).json({message: "Guide delete successful!!"});
+        res.status(200).json({ message: "Guide delete successful!!" });
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -66,33 +67,34 @@ const updateGuide = async (req, res) => {
     try {
         const { id } = req.params;
 
-        let updatedData = {
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            location: req.body.location,
-            dob: req.body.dob,
-            languages: req.body.languages,
-            specializations: req.body.specializations,
-            experience: req.body.experience,
-            bio: req.body.bio,
-            phone: req.body.phone,
-            website: req.body.website,
-            whatsapp: req.body.whatsapp,
-            facebook: req.body.facebook,
-        }
+        let updatedData = req.body;
+        // {
+        //     firstname: req.body.firstname,
+        //     lastname: req.body.lastname,
+        //     location: req.body.location,
+        //     dob: req.body.dob,
+        //     languages: req.body.languages,
+        //     specializations: req.body.specializations,
+        //     experience: req.body.experience,
+        //     bio: req.body.bio,
+        //     phone: req.body.phone,
+        //     website: req.body.website,
+        //     whatsapp: req.body.whatsapp,
+        //     facebook: req.body.facebook,
+        // }
 
-        if(req.file) {
+        if (req.file) {
             updatedData.image = req.file.path
         }
-        
+
         const guide = await Guide.findByIdAndUpdate(id, updatedData);
 
-        if(!guide) return res.status(404).json({ message: "guide not found!!" });
+        if (!guide) return res.status(404).json({ message: "guide not found!!" });
 
-        res.status(200).json({ message: "Update Successful!!" , data: updatedData});
+        res.status(200).json({ message: "Update Successful!!", data: updatedData });
 
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
 }
 

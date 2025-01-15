@@ -23,7 +23,15 @@ const userSchema = new mongoose.Schema({
   },
   image: {
     type: String
-  }
+  },
+  wishlist: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Wishlist"
+  }]
+  // booking: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "Booking"
+  // },
 },
 {
   timestamps: true

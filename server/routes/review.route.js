@@ -9,11 +9,11 @@ const router = express.Router();
 
 router.post("/", authenticateToken, async (req, res) => {
     try {
-        const checkReviewExists =  await Review.find({user : req.body.user});
-        if(checkReviewExists) return res.status(400).json({message: "Review Already Exists"});
+        const checkReviewExists =  await Review.find({user : req.user, guide: req.body.guide});
+        if(checkReviewExists.length === 1) return res.status(400).json({message: "Review Already Exists"});
 
         const review = await Review({
-            user: req.body.user,
+            user: req.user,
             guide: req.body.guide,
             rating: req.body.rating,
             comment: req.body.comment,
@@ -21,16 +21,14 @@ router.post("/", authenticateToken, async (req, res) => {
 
         await review.save();
 
+
         const guide = await Guide.findById(req.body.guide);
 
         guide.reviews.push(review._id);
+        const rs =  await Review.find({user : req.user});
+        const totalRatings = rs.reduce((sum, review) => sum + review.rating, 0);
+        guide.rating= Math.round(totalRatings / rs.length);
 
-        await guide.save();
-        
-        const avgRating = await calculateRating(req.body.user);
-        
-        guide.rating= avgRating;
-        
         await guide.save();
     
         res.status(200).json({message : "review added succesfully!!"});
@@ -39,11 +37,10 @@ router.post("/", authenticateToken, async (req, res) => {
     }
 });
 
-calculateRating = async (id) => {
-    const reviews =  await Review.find({user : id});
-    const totalRatings = reviews.reduce((sum, review) => sum + review.rating, 0);
-    return totalRatings / reviews.length; 
-}
-
+calculateAvgRating = async (id) => {
+    const rs =  await Review.find({user : id});
+    const totalRatings = rs.reduce((sum, review) => sum + review.rating, 0);    
+    return Math.round(totalRatings / rs.length);
+};
 
 module.exports = router;

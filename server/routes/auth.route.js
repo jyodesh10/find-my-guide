@@ -27,11 +27,11 @@ router.post("/login", async (req, res) => {
 
     
     //generate jwt
-    const accesToken = jwt.sign({email}, process.env.ACCESS_TOKEN_SECRET, {
+    const accesToken = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1d"
     })
     
-    const refreshToken =  jwt.sign({email}, process.env.REFRESH_TOKEN_SECRET)
+    const refreshToken =  jwt.sign({user}, process.env.REFRESH_TOKEN_SECRET)
 
     refreshTokens.push(refreshToken);
     
