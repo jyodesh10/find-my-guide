@@ -14,7 +14,7 @@ const getAllBlogs = async (req, res) => {
             .skip(limit * page)
             .limit(limit)
             .sort({"createdAt" : -1 });
-        res.status(200).json({ page, limit, data: blogs});
+        res.status(200).json({ page: page+1, limit, data: blogs});
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
