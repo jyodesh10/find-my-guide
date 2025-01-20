@@ -28,7 +28,7 @@ router.post("/login", async (req, res) => {
     
     //generate jwt
     const accesToken = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "1d"
+        expiresIn: "30d"
     })
     
     const refreshToken =  jwt.sign({user}, process.env.REFRESH_TOKEN_SECRET)
@@ -58,7 +58,7 @@ router.post("/guide-login", async (req, res) => {
     
     //generate jwt
     const accesToken = jwt.sign({email}, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "1d"
+        expiresIn: "30d"
     })
     
     const refreshToken =  jwt.sign({email}, process.env.REFRESH_TOKEN_SECRET)
@@ -78,7 +78,7 @@ router.post("/token", (req, res) => {
         if(err) return res.status(403).json({message: "invalid refresh token"});
         
         const newaccesstoken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: "1d"
+            expiresIn: "30d"
         });
 
         res.json({accesToken: newaccesstoken});
