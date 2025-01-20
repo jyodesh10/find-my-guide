@@ -10,6 +10,7 @@ const specializationRoute = require("./routes/specialization.route.js");
 const reviewRoute = require("./routes/review.route.js");
 const tourreviewRoute = require("./routes/tour_review.route.js");
 const wishlistRoute = require("./routes/wishlist.route.js");
+const blogRoute = require("./routes/blog.route.js");
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use("/api/languages", languageRoute);
 app.use("/api/review", reviewRoute);
 app.use("/api/tour-review", tourreviewRoute);
 app.use("/api/wishlist", wishlistRoute);
+app.use("/api/blog", blogRoute);
 app.use("/auth", authRoute);
 
 app.get('/', (req, res) => {

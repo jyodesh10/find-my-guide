@@ -13,9 +13,13 @@ const blogschema = new mongoose.Schema({
     image: {
         type: String
     },
+    author: {
+        type: String,
+        required: true
+    }
 },
     {
-        timestamps
+        timestamps: true
     }
 
 )
