@@ -93,10 +93,31 @@ const updateUser = async (req, res) => {
     }
 }
 
+const editPassword = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const hashedpassword = await hashpassword(req.body.password);
+
+        let updatedData = {
+            password: hashedpassword,
+        }
+      
+        const user = await User.findByIdAndUpdate(id, updatedData);
+
+        if(!user) return res.status(404).json({ message: "user not found!!" });
+
+        res.status(200).json({ message: "Password changed" , data: updatedData});
+
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
+
 
 module.exports = {
     createUser,
     getUsers,
     getUser,
-    updateUser
+    updateUser,
+    editPassword
 }

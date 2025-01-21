@@ -35,7 +35,7 @@ router.post("/login", async (req, res) => {
 
     refreshTokens.push(refreshToken);
     
-    res.json({ accesToken, refreshToken })
+    res.json({ id: user.id, accesToken, refreshToken })
 })
 
 router.post("/guide-login", async (req, res) => {
