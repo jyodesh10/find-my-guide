@@ -1,4 +1,5 @@
 const Tour = require("../models/tour.model.js");
+const {vercelBlobUpload} = require('../utils/vercelblob.js');
 
 const createTour = async (req, res) => {
     try {
@@ -6,7 +7,8 @@ const createTour = async (req, res) => {
         const tour = await Tour(req.body);
 
         if (req.file) {
-            tour.image = req.file.path
+            const url = await vercelBlobUpload(res, req.file.buffer, "tours/"+Date.now()+ req.file.originalname);
+            tour.image = url;
         }
 
         await tour.save();

@@ -1,5 +1,5 @@
 const Blog = require('../models/blog.model.js');
-
+const {vercelBlobUpload} = require('../utils/vercelblob.js');
 
 
 const getAllBlogs = async (req, res) => {
@@ -34,7 +34,8 @@ const createBlog = async (req, res) => {
     try {
         let blog = Blog(req.body);
         if (req.file) {
-            blog.image = req.file.path
+            const url = await vercelBlobUpload(res, req.file.buffer, "blogs/"+Date.now()+ req.file.originalname);
+            blog.image = url;
         }
         await blog.save();
         res.status(200).json({ message: "Blog created successfully", data: blog });

@@ -1,6 +1,7 @@
 const User  = require("../models/user.model.js");
 const path = require('path'); 
 const { hashpassword } = require("../utils/bcrypthelper.js");
+const { vercelBlobUpload } = require("../utils/vercelblob.js");
 
 const createUser = async (req, res) => {
     try {
@@ -20,7 +21,8 @@ const createUser = async (req, res) => {
         });
 
         if(req.file) {
-            user.image = req.file.path
+            const url = await vercelBlobUpload(res, req.file.buffer, "users/"+req.user);
+            user.image = url;
         }
 
         user.save();
@@ -74,9 +76,10 @@ const updateUser = async (req, res) => {
             dob: req.body.dob,
             image: req.body.image
         }
-
         if(req.file) {
-            updatedData.image = req.file.path
+
+            const url = await vercelBlobUpload(res, req.file.buffer, "users/"+req.user);
+            updatedData.image = url;
         }
         
         const user = await User.findByIdAndUpdate(id, updatedData);

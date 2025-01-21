@@ -1,6 +1,7 @@
 const Guide = require("../models/guide.model.js");
 const path = require('path');
 const { hashpassword } = require("../utils/bcrypthelper.js");
+const {vercelBlobUpload} = require('../utils/vercelblob.js');
 
 const createGuide = async (req, res) => {
     try {
@@ -15,7 +16,9 @@ const createGuide = async (req, res) => {
 
         guide.password = hashedpassword;
         if (req.file) {
-            guide.image = req.file.path
+
+            const url = await vercelBlobUpload(res, req.file.buffer, "guides/"+Date.now()+ req.file.originalname);
+            guide.image = url
         }
 
         await guide.save();
@@ -84,7 +87,8 @@ const updateGuide = async (req, res) => {
         // }
 
         if (req.file) {
-            updatedData.image = req.file.path
+            const url = await vercelBlobUpload(res, req.file.buffer, "guides/"+Date.now()+ req.file.originalname);
+            updatedData.image = url;
         }
 
         const guide = await Guide.findByIdAndUpdate(id, updatedData);
