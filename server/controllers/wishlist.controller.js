@@ -5,7 +5,11 @@ const User = require("../models/user.model.js");
 
 const getAllWishlist = async (req, res) => {
     try {
-        const wishlist = await Wishlist.find({user : req.user});
+        const wishlist = await Wishlist.find({user : req.user}).populate({
+            path : "tour",
+            model: "Tour",
+            select: "image _id price title"
+        });
         res.status(200).json({wishlist});
     } catch (error) {
         res.status(500).json({ message: error.message });
