@@ -11,6 +11,7 @@ const reviewRoute = require("./routes/review.route.js");
 const tourreviewRoute = require("./routes/tour_review.route.js");
 const wishlistRoute = require("./routes/wishlist.route.js");
 const blogRoute = require("./routes/blog.route.js");
+const homeRoute = require("./routes/home.route.js");
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use('/uploads', express.static('uploads'));
 
 
 //routes
+app.use("/api/home", homeRoute);
 app.use("/api/users", userRoute);
 app.use("/api/guides", guideRoute);
 app.use("/api/tours", tourRoute);
