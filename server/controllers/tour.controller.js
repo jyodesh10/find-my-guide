@@ -35,7 +35,7 @@ const getAllTours = async (req, res) => {
             ]
         };
 
-        const tours = await Tour.find(query);
+        const tours = await Tour.find(query).select('-reviews');
         res.status(200).json(tours);
     } catch (error) {
         res.status(500).json({ message: error.message });
