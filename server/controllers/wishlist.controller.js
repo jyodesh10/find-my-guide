@@ -32,7 +32,7 @@ const createWishlist = async (req, res) => {
     try {
         const checkAlreadyAdded = await Wishlist.find({user : req.user, tour: req.body.tour});
         console.log(checkAlreadyAdded.toString());
-        if(checkAlreadyAdded.length ===1) return res.status(400).json({message: "Already added"});
+        if(checkAlreadyAdded.length ===1) return res.status(400).json({error: false, message: "Already added"});
         const wishlist = await Wishlist(req.body);
         wishlist.user = req.user;
         await wishlist.save();
@@ -44,7 +44,7 @@ const createWishlist = async (req, res) => {
 
         await user.save();
 
-        res.status(200).json({ message : "Added to wishlist"});
+        res.status(200).json({ error: false, message : "Added to wishlist"});
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -54,7 +54,7 @@ const deleteFromWishlist = async (req, res) => {
     try {
         const { id } = req.params;
         await Wishlist.findByIdAndDelete(id).then(() => {
-            res.status(200).json({ message : "Deleted Successfully"});
+            res.status(200).json({ error: false, message : "Deleted Successfully"});
         });
     } catch (error) {
         res.status(500).jsodn({ message: error.message });
