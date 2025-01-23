@@ -1,6 +1,5 @@
-const multer  = require('multer')
-const path = require('path')
-
+import multer from "multer";
+import path from "path";
 // const storage = multer.diskStorage({
 //     destination: function (req, file, cb) {
 //       cb(null, 'uploads/');
@@ -10,17 +9,13 @@ const path = require('path')
 //       cb(null, Date.now() + ext);
 //     }
 //   })
-  
 // const upload = multer({ 
 //     storage: storage ,
 //     // fileFilter : function(req, res, callback) {
-
 //     // }
 // });
 const upload = multer({
-  storage: multer.memoryStorage(), // Store files in memory for Vercel upload
-  // ... (other upload options)
+    storage: multer.memoryStorage(), // Store files in memory for Vercel upload
+    // ... (other upload options)
 });
-
-
-module.exports = upload;
+export default upload;

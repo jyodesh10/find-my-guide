@@ -1,13 +1,10 @@
-const express = require('express');
+import * as express from "express";
 const router = express.Router();
-
-
 router.get('/', (req, res) => {
-  const specializations = [
-    'History', 'Food', 'Nature', 'Photography', 'Adventure', 
-    'Culture', 'Religion', 'Art', 'Music', 'Shopping' 
-  ];
-  res.json(specializations); 
+    const specializations = [
+        'History', 'Food', 'Nature', 'Photography', 'Adventure',
+        'Culture', 'Religion', 'Art', 'Music', 'Shopping'
+    ];
+    res.json(specializations);
 });
-
-module.exports = router;
+export default router;

@@ -1,6 +1,4 @@
-
-const Home = require('../models/home.model.js');
-
+import Home from "../models/home.model.js";
 const getHome = async (req, res) => {
     try {
         const home = await Home.findOne().populate({
@@ -15,29 +13,25 @@ const getHome = async (req, res) => {
             path: "guides_nearby",
             model: "Guide",
             select: "_id firstname lastname image location rating price"
-
         });
-
         res.status(200).json(home);
-
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
-
-
+};
 const addToHome = async (req, res) => {
     try {
         const { recommended_tours, blogs, guides_nearby } = req.body;
         const existingHome = await Home.findOne();
-
         if (existingHome) {
             existingHome.recommended_tours = recommended_tours;
             existingHome.blogs = blogs;
             existingHome.guides_nearby = guides_nearby;
             await existingHome.save();
             res.status(200).json(existingHome);
-        } else {
+        }
+        else {
             const home = new Home({
                 recommended_tours: recommended_tours,
                 blogs: blogs,
@@ -46,14 +40,14 @@ const addToHome = async (req, res) => {
             await home.save();
             res.status(200).json(home);
         }
-
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
-
-
-module.exports = {
+};
+export { getHome };
+export { addToHome };
+export default {
     getHome,
     addToHome
-}
+};

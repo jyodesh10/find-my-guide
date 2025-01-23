@@ -1,24 +1,23 @@
-const mongoose = require('mongoose');
-
+import mongoose from "mongoose";
 const homeSchema = new mongoose.Schema({
     recommended_tours: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tour',
-      },
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Tour',
+        },
     ],
     blogs: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Blog',
-      },
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Blog',
+        },
     ],
     guides_nearby: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Guide',
-      },
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Guide',
+        },
     ],
-})
-
-module.exports = mongoose.model('Home', homeSchema);
+});
+const Home = mongoose.model('Home', homeSchema);
+export default Home;

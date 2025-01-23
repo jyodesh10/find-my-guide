@@ -1,28 +1,22 @@
-const Tour = require("../models/tour.model.js");
-const {vercelBlobUpload} = require('../utils/vercelblob.js');
-
+import Tour from "../models/tour.model.js";
+import { vercelBlobUpload } from "../utils/vercelblob.js";
 const createTour = async (req, res) => {
     try {
-
         const tour = await Tour(req.body);
-
         if (req.file) {
-            const url = await vercelBlobUpload(res, req.file.buffer, "tours/"+Date.now()+ req.file.originalname);
+            const url = await vercelBlobUpload(res, req.file.buffer, "tours/" + Date.now() + req.file.originalname);
             tour.image = url;
         }
-
         await tour.save();
-
         res.status(200).json({ message: "Tour created successfully", data: tour });
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
-
+};
 const getAllTours = async (req, res) => {
     try {
         const search = req.query.search || "";
-
         const query = {
             $or: [
                 { title: { $regex: search, $options: 'i' } },
@@ -34,14 +28,13 @@ const getAllTours = async (req, res) => {
                 // { 'highlights.specializations': { $in: [search] } } // Case-sensitive search for specializations
             ]
         };
-
         const tours = await Tour.find(query).select('-reviews');
         res.status(200).json(tours);
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
-
+};
 const getTour = async (req, res) => {
     try {
         const { id } = req.params;
@@ -53,28 +46,30 @@ const getTour = async (req, res) => {
                 model: 'User',
                 select: ["username", "image"]
             }
-        }
-        )
+        });
         res.status(200).json(tour);
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
-
+};
 const deleteTour = async (req, res) => {
     try {
         const { id } = req.params;
         await Tour.findByIdAndDelete(id);
         res.status(200).json({ message: "Tour deleted successfully" });
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
-
-
-module.exports = {
+};
+export { createTour };
+export { getAllTours };
+export { getTour };
+export { deleteTour };
+export default {
     createTour,
     getAllTours,
     getTour,
     deleteTour
-}
+};

@@ -1,4 +1,2 @@
-const startserver = require("./server/app.js");
-
-
+import startserver from "./server/app.js";
 startserver();

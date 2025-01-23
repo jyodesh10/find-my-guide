@@ -1,104 +1,93 @@
-
-
-const mongoose = require('mongoose');
-
-
-const locationSchema = mongoose.Schema(
-  {
+import mongoose from "mongoose";
+const locationSchema = mongoose.Schema({
     country: {
-      type: String,
-      default: "Nepal"
+        type: String,
+        default: "Nepal"
     },
     region: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
     city: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
-  },
-  {
+}, {
     _id: false
-  }
-);
-
-const guideSchema = new mongoose.Schema(
-  {
+});
+const guideSchema = new mongoose.Schema({
     firstname: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     lastname: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     email: {
-      type: String,
-      required: true,
-      unique: true,
+        type: String,
+        required: true,
+        unique: true,
     },
     password: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     dob: {
-      type: Date,
+        type: Date,
     },
     location: {
-      type: locationSchema,
-      required: true,
+        type: locationSchema,
+        required: true,
     },
     languages: [{ type: String }],
     specializations: [{ type: String }],
     experience: {
-      type: Number,
+        type: Number,
     },
     bio: {
-      type: String,
+        type: String,
     },
     price: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
     ///Contacts
     phone: {
-      type: String,
+        type: String,
     },
     website: {
-      type: String,
+        type: String,
     },
     whatsapp: {
-      type: String,
+        type: String,
     },
     facebook: {
-      type: String,
+        type: String,
     },
     image: {
-      type: String, // URL to guide's photo
+        type: String, // URL to guide's photo
     },
     reviews: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Review',
-      },
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Review',
+        },
     ],
     rating: {
-      type: Number,
-      default: 0,
+        type: Number,
+        default: 0,
     },
     isVerified: {
-      type: Boolean,
-      default: false,
+        type: Boolean,
+        default: false,
     },
     documents: {
-      type: [String]
+        type: [String]
     }
-  },
-  {
+}, {
     timestamps: true
-  }
-);
+});
 
-
-module.exports = mongoose.model('Guide', guideSchema);
+const Guide = mongoose.model('Guide', guideSchema);
+export default Guide;
