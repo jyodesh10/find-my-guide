@@ -1,7 +1,9 @@
 {
     "name": "tourist-guide-api",
     "version": "1.0.0",
-    "exports": "./index.js",
+    "exports": {
+        ".": "./dist/index.js"
+    },
     "type": "module",
     "engines": {
         "node": "22.x"
