@@ -8,7 +8,7 @@ const getHome = async (req, res) => {
         }).populate({
             path: "blogs",
             model: "Blog",
-            select: "_id image title content"
+            select: "_id image title content createdAt"
         }).populate({
             path: "guides_nearby",
             model: "Guide",
@@ -45,8 +45,7 @@ const addToHome = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-export { getHome };
-export { addToHome };
+export { addToHome, getHome };
 export default {
     getHome,
     addToHome
