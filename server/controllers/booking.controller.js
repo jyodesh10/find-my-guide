@@ -20,7 +20,7 @@ export const getBookingbyId = async (req, res) => {
     try {
         const { id } = req.params;
         const booking = await Booking.findById(id);
-        res.status(200).json({ Booking });
+        res.status(200).json({ booking });
     }
     catch (error) {
         res.status(500).json({ message: error.message });
