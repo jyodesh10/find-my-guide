@@ -12,7 +12,7 @@ const getHome = async (req, res) => {
         }).populate({
             path: "guides_nearby",
             model: "Guide",
-            select: "_id firstname lastname image location rating price"
+            select: "_id firstname lastname image location rating price isVerified"
         });
         res.status(200).json(home);
     }
