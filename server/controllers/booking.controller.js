@@ -19,7 +19,12 @@ export const getBookingsbyUser =  async (req, res) => {
 export const getBookingbyId = async (req, res) => {
     try {
         const { id } = req.params;
-        const booking = await Booking.findById(id);
+        const booking = await Booking.findById(id).populate(
+            {
+                path: "tour",
+                model: "Tour"
+            }
+        );
         res.status(200).json({ booking });
     }
     catch (error) {
