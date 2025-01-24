@@ -4,6 +4,7 @@ import AdminJS from "adminjs";
 import MongoStore from "connect-mongo";
 import dotenv from "dotenv";
 import express from "express";
+import path from "path";
 import dbconnection from "./database.js";
 import blogResource from "./resources/blog.resource.js";
 import bookingResource from "./resources/booking.resource.js";
@@ -30,6 +31,7 @@ AdminJS.registerAdapter(AdminJSMongoose);
 dotenv.config();
 const app = express();
 
+app.use(express.static(path.join(process.cwd(), 'public'))); // Adjust path as needed
 
 //admins
 const adminJs = new AdminJS({
