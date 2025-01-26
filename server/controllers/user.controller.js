@@ -63,13 +63,7 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        let updatedData = {
-            username: req.body.username,
-            email: req.body.email,
-            mobile_no: req.body.mobile_no,
-            dob: req.body.dob,
-            image: req.body.image
-        };
+        let updatedData = req.body;
         if (req.file) {
             const url = await vercelBlobUpload(res, req.file.buffer, "users/" + req.user);
             updatedData.image = url;
