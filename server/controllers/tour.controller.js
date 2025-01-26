@@ -46,6 +46,10 @@ const getTour = async (req, res) => {
                 model: 'User',
                 select: ["username", "image"]
             }
+        }).populate({
+            path: "guide",
+            model: "Guide",
+            select: ["firstname", "lastname"]
         });
         res.status(200).json(tour);
     }
@@ -63,10 +67,7 @@ const deleteTour = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-export { createTour };
-export { getAllTours };
-export { getTour };
-export { deleteTour };
+export { createTour, deleteTour, getAllTours, getTour };
 export default {
     createTour,
     getAllTours,
