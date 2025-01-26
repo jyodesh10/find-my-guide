@@ -1,6 +1,8 @@
+import Blog from "../models/blog.model.js";
 import Home from "../models/home.model.js";
+
 const getHome = async (req, res) => {
-    try {
+    try {        
         const home = await Home.findOne().populate({
             path: "recommended_tours",
             model: "Tour",
@@ -22,11 +24,13 @@ const getHome = async (req, res) => {
 };
 const addToHome = async (req, res) => {
     try {
-        const { recommended_tours, blogs, guides_nearby } = req.body;
+        const blog = await Blog.find().limit(8).sort({ "createdAt": -1 });
+
+        const { recommended_tours, guides_nearby } = req.body;
         const existingHome = await Home.findOne();
         if (existingHome) {
             existingHome.recommended_tours = recommended_tours;
-            existingHome.blogs = blogs;
+            existingHome.blogs = blog;
             existingHome.guides_nearby = guides_nearby;
             await existingHome.save();
             res.status(200).json(existingHome);
@@ -34,7 +38,7 @@ const addToHome = async (req, res) => {
         else {
             const home = new Home({
                 recommended_tours: recommended_tours,
-                blogs: blogs,
+                blogs: blog,
                 guides_nearby: guides_nearby
             });
             await home.save();

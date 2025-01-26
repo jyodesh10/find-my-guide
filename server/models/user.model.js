@@ -1,4 +1,22 @@
 import mongoose from "mongoose";
+
+const locationSchema = mongoose.Schema({
+    country: {
+        type: String,
+        default: "Nepal"
+    },
+    region: {
+        type: String,
+        required: true
+    },
+    city: {
+        type: String,
+        required: true
+    },
+}, {
+    _id: false
+});
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -22,6 +40,10 @@ const userSchema = new mongoose.Schema({
     },
     image: {
         type: String
+    },
+    location: {
+        type: locationSchema,
+        required: true,
     },
     // wishlist: [{
     //         type: mongoose.Schema.Types.ObjectId,
