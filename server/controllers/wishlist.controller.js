@@ -1,4 +1,3 @@
-import User from "../models/user.model.js";
 import Wishlist from "../models/wishlist.model.js";
 const getAllWishlist = async (req, res) => {
     try {
@@ -32,9 +31,6 @@ const createWishlist = async (req, res) => {
         const wishlist = await Wishlist(req.body);
         wishlist.user = req.user;
         await wishlist.save();
-        const user = await User.findById(req.user);
-        user.wishlist.push(wishlist._id);
-        await user.save();
         res.status(200).json({ error: false, message: "Added to wishlist" });
     }
     catch (error) {
