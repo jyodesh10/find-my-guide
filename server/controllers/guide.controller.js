@@ -1,5 +1,5 @@
 import Guide from "../models/guide.model.js";
-import path from "path";
+import Tour from "../models/tour.model.js";
 import { hashpassword } from "../utils/bcrypthelper.js";
 import { vercelBlobUpload } from "../utils/vercelblob.js";
 const createGuide = async (req, res) => {
@@ -50,6 +50,19 @@ const getGuide = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+const getTourByGuideId = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const tour = await Tour.find({guide : id}).select('-reviews -description -guide -itinerary');
+        res.status(200).json(tour);
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }   
+}
+
 const deleteGuide = async (req, res) => {
     try {
         const { id } = req.params;
@@ -64,20 +77,7 @@ const updateGuide = async (req, res) => {
     try {
         const { id } = req.params;
         let updatedData = req.body;
-        // {
-        //     firstname: req.body.firstname,
-        //     lastname: req.body.lastname,
-        //     location: req.body.location,
-        //     dob: req.body.dob,
-        //     languages: req.body.languages,
-        //     specializations: req.body.specializations,
-        //     experience: req.body.experience,
-        //     bio: req.body.bio,
-        //     phone: req.body.phone,
-        //     website: req.body.website,
-        //     whatsapp: req.body.whatsapp,
-        //     facebook: req.body.facebook,
-        // }
+    
         if (req.file) {
             const url = await vercelBlobUpload(res, req.file.buffer, "guides/" + Date.now() + req.file.originalname);
             updatedData.image = url;
@@ -91,15 +91,12 @@ const updateGuide = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-export { createGuide };
-export { getGuides };
-export { getGuide };
-export { updateGuide };
-export { deleteGuide };
+export { createGuide, deleteGuide, getGuide, getGuides, getTourByGuideId, updateGuide };
 export default {
     createGuide,
     getGuides,
     getGuide,
     updateGuide,
+    getTourByGuideId,
     deleteGuide
 };

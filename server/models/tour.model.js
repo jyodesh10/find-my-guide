@@ -40,14 +40,23 @@ const tourschema = new mongoose.Schema({
         type: String,
         required: true
     },
+    itinerary: {
+        type: String,
+        required: true
+    },
     highlights: {
         type: highlighsSchema,
         required: true
     },
     price: {
-        type: String,
+        type: mongoose.Schema.Types.Decimal128,
         required: true
     },
+    pricePer: {
+        type: String,
+        enum: ['Person', 'Night'],
+        default: 'Person'
+    }, 
     image: {
         type: [String],
         required: true

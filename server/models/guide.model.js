@@ -49,9 +49,14 @@ const guideSchema = new mongoose.Schema({
         type: String,
     },
     price: {
-        type: String,
+        type: mongoose.Schema.Types.Decimal128,
         required: true
     },
+    pricePer: {
+        type: String,
+        enum: ['Hour', 'Day'],
+        default: 'Hour'
+    },    
     ///Contacts
     phone: {
         type: String,
