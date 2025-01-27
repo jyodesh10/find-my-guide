@@ -28,7 +28,7 @@ const getAllTours = async (req, res) => {
                 // { 'highlights.specializations': { $in: [search] } } // Case-sensitive search for specializations
             ]
         };
-        const tours = await Tour.find(query).select('-reviews -description');
+        const tours = await Tour.find(query).select('-reviews -description -guide');
         res.status(200).json({data: tours});
     }
     catch (error) {
