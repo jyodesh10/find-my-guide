@@ -25,7 +25,18 @@ const createGuide = async (req, res) => {
 };
 const getGuides = async (req, res) => {
     try {
-        const users = await Guide.find().select('-reviews');
+        const search = req.query.search || "";
+        const query = {
+            $or: [
+                { firstname: { $regex: search, $options: 'i' } },
+                { lastname: { $regex: search, $options: 'i' } },
+                { 'location.country': { $regex: search, $options: 'i' } },
+                { 'location.region': { $regex: search, $options: 'i' } },
+                { 'location.city': { $regex: search, $options: 'i' } }
+            ]
+        };
+        const users = await Guide.find(query)
+            .select('-reviews -password -languages -specializations -documents -bio -dob -phone');
         res.status(200).json(users);
     }
     catch (error) {

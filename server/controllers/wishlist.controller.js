@@ -4,7 +4,7 @@ const getAllWishlist = async (req, res) => {
         const wishlist = await Wishlist.find({ user: req.user }).populate({
             path: "tour",
             model: "Tour",
-            select: "image _id price title"
+            select: "image _id price title pricePer"
         });
         res.status(200).json({ wishlist });
     }

@@ -16,6 +16,7 @@ import dbconnection from "./database.js";
 import authRoute from "./routes/auth.route.js";
 import blogRoute from "./routes/blog.route.js";
 import bookingRoute from "./routes/booking.route.js";
+import chatRoute from "./routes/chat.route.js";
 import guideRoute from "./routes/guide.route.js";
 import homeRoute from "./routes/home.route.js";
 import languageRoute from "./routes/language.route.js";
@@ -109,6 +110,7 @@ app.use("/api/tour-review", tourreviewRoute);
 app.use("/api/wishlist", wishlistRoute);
 app.use("/api/blog", blogRoute);
 app.use("/api/booking", bookingRoute);
+app.use("/api/chat", chatRoute);
 app.use("/auth", authRoute);
 
 

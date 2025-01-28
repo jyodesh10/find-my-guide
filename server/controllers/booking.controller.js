@@ -7,7 +7,7 @@ export const getBookingsbyUser =  async (req, res) => {
         const booking = await Booking.find({ user: req.user }).populate({
             path: "tour",
             model: "Tour",
-            select: "image _id price title"
+            select: "image _id price title pricePer"
         });
         res.status(200).json({ booking });
     }

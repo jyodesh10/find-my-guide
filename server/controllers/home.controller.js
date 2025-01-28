@@ -6,7 +6,7 @@ const getHome = async (req, res) => {
         const home = await Home.findOne().populate({
             path: "recommended_tours",
             model: "Tour",
-            select: "_id image title price highlights.duration"
+            select: "_id image title price highlights.duration pricePer"
         }).populate({
             path: "blogs",
             model: "Blog",
@@ -14,7 +14,7 @@ const getHome = async (req, res) => {
         }).populate({
             path: "guides_nearby",
             model: "Guide",
-            select: "_id firstname lastname image location rating price isVerified"
+            select: "_id firstname lastname image location rating price isVerified pricePer"
         });
         res.status(200).json(home);
     }
