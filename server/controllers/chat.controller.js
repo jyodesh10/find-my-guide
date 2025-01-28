@@ -13,7 +13,11 @@ export const getChat = async (req, res) => {
 export const getChatbyUserId = async (req, res) => {
      try {
           const { user } = req.query;
-          const chat = await Chat.find({ user: user });
+          const chat = await Chat.find({ user: user }).populate({
+               path: "guide",
+               model: "Guide",
+               select: ["image", "firstname", "lastname"]
+          });
           res.status(200).json(chat);
      } catch (error) {
           res.status(500).json({ message: error.message });
@@ -23,7 +27,11 @@ export const getChatbyUserId = async (req, res) => {
 export const getChatbyGuideId = async (req, res) => {
      try {
           const { guide } = req.query;
-          const chat = await Chat.find({ guide: guide });
+          const chat = await Chat.find({ guide: guide }).populate({
+               path: "user",
+               model: "User",
+               select: ["image", "username",]
+          });
           res.status(200).json(chat);
      } catch (error) {
           res.status(500).json({ message: error.message });
