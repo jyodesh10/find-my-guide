@@ -1,10 +1,12 @@
 import * as express from "express";
 import jwt from "jsonwebtoken";
-import User from "../models/user.model.js";
 import Guide from "../models/guide.model.js";
+import User from "../models/user.model.js";
 import { comparepasswords } from "../utils/bcrypthelper.js";
 const router = express.Router();
 const refreshTokens = [];
+
+
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({
@@ -25,6 +27,8 @@ router.post("/login", async (req, res) => {
     refreshTokens.push(refreshToken);
     res.json({ id: user.id, accesToken, refreshToken });
 });
+
+
 router.post("/guide-login", async (req, res) => {
     const { email, password } = req.body;
     const user = await Guide.findOne({
@@ -38,13 +42,15 @@ router.post("/guide-login", async (req, res) => {
         return res.status(403).json({ message: "credentials invalid" });
     }
     //generate jwt
-    const accesToken = jwt.sign({ email }, process.env.ACCESS_TOKEN_SECRET, {
+    const accesToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "30d"
     });
-    const refreshToken = jwt.sign({ email }, process.env.REFRESH_TOKEN_SECRET);
+    const refreshToken = jwt.sign({ user }, process.env.REFRESH_TOKEN_SECRET);
     refreshTokens.push(refreshToken);
-    res.json({ accesToken, refreshToken });
+    res.json({ id: user.id, accesToken, refreshToken });
 });
+
+
 router.post("/token", (req, res) => {
     const { refreshToken } = req.body;
     if (!refreshToken)

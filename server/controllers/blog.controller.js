@@ -39,6 +39,7 @@ const createBlog = async (req, res) => {
         res.status(200).json({ message: "Blog created successfully", data: blog });
     }
     catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message });
     }
 };
@@ -52,10 +53,7 @@ const deleteBlog = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-export { getAllBlogs };
-export { getBlog };
-export { createBlog };
-export { deleteBlog };
+export { createBlog, deleteBlog, getAllBlogs, getBlog };
 export default {
     getAllBlogs,
     getBlog,
