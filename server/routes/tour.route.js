@@ -3,7 +3,7 @@ import authenticateToken from "../../middleware/authMiddleware.js";
 import upload from "../../middleware/uploadMiddleware.js";
 import { createTour, deleteTour, getAllTours, getTour } from "../controllers/tour.controller.js";
 const router = express.Router();
-router.post("/", [authenticateToken, upload.single('image')], createTour);
+router.post("/", [authenticateToken, upload.array('image')], createTour);
 router.get("/", authenticateToken, getAllTours);
 router.get("/:id", authenticateToken, getTour);
 router.delete("/:id", authenticateToken, deleteTour);
