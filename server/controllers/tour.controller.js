@@ -3,9 +3,16 @@ import { vercelBlobUpload } from "../utils/vercelblob.js";
 const createTour = async (req, res) => {
     try {
         const tour = await Tour(req.body);
-        if (req.file) {
-            const url = await vercelBlobUpload(res, req.file.buffer, "tours/" + Date.now() + req.file.originalname);
-            tour.image = url;
+        const files = req.files;
+
+        if (files && files.length > 0) {
+            const uploadPromises = files.map(async (file) => {
+                const url = await vercelBlobUpload(res, file.buffer, "tours/" + Date.now() + file.originalname);
+                return url; 
+            });
+
+            const uploadedUrls = await Promise.all(uploadPromises);
+            tour.image = uploadedUrls;
         }
         await tour.save();
         res.status(200).json({ message: "Tour created successfully", data: tour });
