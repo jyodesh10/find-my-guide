@@ -4,6 +4,8 @@ const getAllBlogs = async (req, res) => {
     try {
         let page = parseInt(req.query.page) - 1;
         let limit = parseInt(req.query.limit);
+        let total_count = await Blog.countDocuments();
+        let total_pages =  Math.ceil( await Blog.countDocuments() / limit);
         if (!page)
             page = 0;
         if (!limit)
@@ -12,7 +14,7 @@ const getAllBlogs = async (req, res) => {
             .skip(limit * page)
             .limit(limit)
             .sort({ "createdAt": -1 });
-        res.status(200).json({ page: page + 1, limit, data: blogs });
+        res.status(200).json({ page: page + 1, limit, total_count: total_count, total_pages: total_pages, data: blogs });
     }
     catch (error) {
         res.status(500).json({ message: error.message });
